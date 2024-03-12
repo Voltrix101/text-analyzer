@@ -22,7 +22,14 @@ export default function TextForm(props) {
     const handleOnChange = (event) => {
         setText(event.target.value);
     };
-
+    const speak = () => {
+        let msg = new SpeechSynthesisUtterance();
+        var voices = window.speechSynthesis.getVoices();
+        msg.voice = voices[6];
+        msg.lang = 'en-US';
+        msg.text = text;
+        window.speechSynthesis.speak(msg);
+      }
     const handleCopy = () => {
         navigator.clipboard.writeText(text);
         props.showAlert("Copied to Clipboard!", "success");
@@ -45,6 +52,7 @@ export default function TextForm(props) {
                 </div>
                 <button disabled={text.length === 0} className="btn btn-primary mx-1 my-1" onClick={handleUpClick}>Convert to Uppercase</button>
                 <button disabled={text.length === 0} className="btn btn-primary mx-1 my-1" onClick={handleLoClick}>Convert to Lowercase</button>
+                <button disabled={text.length === 0} className="btn btn-primary mx-1 my-1" onClick={speak}>Speak</button>
                 <button disabled={text.length === 0} className="btn btn-primary mx-1 my-1" onClick={handleClearClick}>Clear Text</button>
                 <button disabled={text.length === 0} className="btn btn-primary mx-1 my-1" onClick={handleCopy}>Copy Text</button>
                 <button disabled={text.length === 0} className="btn btn-primary mx-1 my-1" onClick={handleExtraSpaces}>Remove Extra Spaces</button>
